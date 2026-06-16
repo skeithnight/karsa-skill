@@ -17,9 +17,9 @@
 
 **Karsa Skill** is an engineering workflow framework that brings rigorous, auditable processes to AI-assisted software development. Built for the Gemini CLI ecosystem, it provides a structured collection of composable skills that enforce production-grade quality at every stage of the development lifecycle — from initial design through final release.
 
-Unlike prompt collections or snippet libraries, Karsa Skill operates as a **complete workflow orchestration layer**. Each skill encodes not just *what* to do, but *how* to do it correctly, *when* to validate results, and *what evidence* to produce for auditability. Skills are designed to chain together into coherent workflows that mirror professional software engineering practices.
+With the latest major refactor, Karsa Skill operates as a **complete execution orchestration layer**. Each skill encodes not just *what* to do, but *how* to do it correctly via automated shell scripts, *when* to validate results, and *what evidence* to produce for auditability. The new `karsa-orchestrator` acts as an executable engine capable of driving a clean machine to a verified running Karsa environment automatically.
 
-The framework is built on the principle that AI-assisted development should be **more disciplined**, not less. Every skill produces verifiable artifacts, every workflow includes mandatory quality gates, and every decision point is documented. This creates a development process that is reproducible, auditable, and continuously improvable.
+The framework is built on the principle that AI-assisted development should be **more disciplined**, not less. Every skill produces verifiable JSON evidence, every workflow includes mandatory quality gates, and every execution step supports failure resumption. This creates a development process that is reproducible, auditable, and continuously improvable.
 
 Karsa Skill is designed for engineers and teams who demand the same rigor from their AI-assisted workflows as they do from their traditional development processes. Whether you are a solo developer validating your own work or a team lead ensuring consistency across contributors, Karsa Skill provides the scaffolding to make quality non-negotiable.
 
@@ -91,6 +91,31 @@ graph LR
 | **Implement** | Execute the approved design with full awareness of constraints and decisions documented in prior phases. |
 | **Audit (Post-Implementation)** | Verify the implementation against the design, quality standards, and acceptance criteria. |
 | **Remediation** | Resolve any post-implementation findings before the work is considered complete. |
+
+---
+
+## Operational Execution Engine
+
+Karsa's `karsa-orchestrator` and `karsa-local-production` skills provide true execution capabilities. You can deploy an entire project automatically:
+
+```bash
+./skills/karsa-local-production/scripts/execute.sh <repo_url> <target_dir>
+```
+
+This triggers the orchestration sequence:
+1. **Clone**: Authenticates and retrieves the specified project repository.
+2. **Audit**: Code scanning and pre-flight checks.
+3. **Install**: Determines the package manager and installs dependencies.
+4. **Configure**: Discovers `.env.example` and automatically provisions `.env`.
+5. **Research**: Queries authoritative documentation to resolve any missing prerequisites.
+6. **Build**: Executes the build sequence.
+7. **Test**: Executes test suites.
+8. **Runtime Verify**: Spawns the process and evaluates health checks.
+9. **Browser Verify**: Programmatically hits major application routes.
+10. **Production Audit**: Final sign-off.
+11. **Final Verdict**: Outputs the complete workflow state and evidence list.
+
+Each phase generates precise JSON evidence (e.g., `clone-evidence.json`, `build-evidence.json`) and the orchestrator allows for seamless failure resumption by tracking state in `.karsa/workflow-state.json`.
 
 ---
 
