@@ -1,0 +1,12 @@
+{
+  "target_url": "http://localhost:3000",
+  "route_validation": {
+    "homepage": "ok",
+    "dashboard": "ok",
+    "navigation": "ok",
+    "search": "ok",
+    "thesis_pages": "ok"
+  },
+  "screenshots": "skipped_in_ci",
+  "console_errors": 0
+}
